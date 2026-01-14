@@ -18,6 +18,7 @@ int main () {
 // Declare variables at the top, it's easier to read
 string item = "fries"; //change to anything you want to sell
 int item_count = 100;
+int purchased; //How many the user wants
 double price_each = 0.79;
 double total_price;
 
@@ -25,8 +26,12 @@ cout << "Welcome to our " << item << " store." << endl;
 cout << "We have " << item_count << " " << item << endl;
 cout << "They cost $" << price_each << " each." << endl;
 
+//Find out how much the user wants to buy
+cout << "How many would you like to buy? ";
+cin >> purchased;
+
 // Calculate the total
-total_price = item_count * price_each;
+total_price = purchased3 * price_each;
 
 cout << "Total price is $" << total_price << endl;
 
