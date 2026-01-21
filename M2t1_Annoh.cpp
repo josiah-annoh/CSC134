@@ -29,7 +29,7 @@ double total_price;
 // NOTE: right now items cant have spaces in their names
 cout << "Welcome to the store setup program" << endl;
 cout << "Name of item? ";
-cin >> item_name;
+getline(cin, item_name); //this should fix the errors
 cout << "Number of items? ";
 cin >> item_count;
 cout << "Price each? ";
