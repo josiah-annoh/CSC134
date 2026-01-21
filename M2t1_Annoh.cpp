@@ -24,6 +24,7 @@ int purchased; //How many the user wants
 double price_each = 0.50;
 double total_price;
 
+
 //Set doubles to print with 2 decimal places
 cout << setprecision(2) << fixed;
 
