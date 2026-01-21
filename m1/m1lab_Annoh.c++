@@ -3,7 +3,7 @@
 // name
 // 1/14/26
 /*
-Were selling "foo" -- you decide what is 
+Were selling "food" -- you decide what is 
 Tell the user how many you have,
 how much each costs,
 and what the total would be.
