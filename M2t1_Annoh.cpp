@@ -26,9 +26,14 @@ double price_each = 0.50;
 double total_price;
 
 // PART ONE: SET UP THE STORE
+// NOTE: right now items cant have spaces in their names
 cout << "Welcome to the store setup program" << endl;
 cout << "Name of item? ";
 cin >> item_name;
+cout << "Number of items? ";
+cin >> item_count;
+cout << "Price each? ";
+cin >> price_each;
 
 // PART TWO: RUN THE STORE (no changes)
 
