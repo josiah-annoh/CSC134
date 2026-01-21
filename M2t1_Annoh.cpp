@@ -7,8 +7,9 @@ Were selling "food" -- you decide what is
 Tell the user how many you have,
 how much each costs,
 and what the total would be.
-
-If we have time we'll make it more interactive
+User Story: 
+As a store owner, I want to set up my store,
+so that I can sell things and make $$$
 */
 
 #include <iostream>
@@ -23,6 +24,13 @@ int item_count;
 int purchased; //How many the user wants
 double price_each = 0.50;
 double total_price;
+
+// PART ONE: SET UP THE STORE
+cout << "Welcome to the store setup program" << endl;
+cout << "Name of item? ";
+cin >> item_name;
+
+// PART TWO: RUN THE STORE (no changes)
 
 
 //Set doubles to print with 2 decimal places
