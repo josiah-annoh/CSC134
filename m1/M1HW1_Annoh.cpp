@@ -13,8 +13,8 @@ string item = "Zootopia 2";
 int item_count = 2025;
 double price_each = 1.69;
 
-cout << "The movie " << item << endl;
-cout << "came out in " << item_count << endl;
+cout << "The movie " << item << " ";
+cout << "came out in " << item_count << " ";
 cout << "and had a worldwide gross of around " << price_each << " billion dollars" << endl;
 
 
