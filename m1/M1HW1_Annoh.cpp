@@ -9,11 +9,13 @@
 using namespace std;
 
 int main () {
-string item_name = Zootopia 2;
+string item = "Zootopia 2";
 int item_count = 2025;
 double price_each = 1.69;
 
-cout << "The movie" << Zootopia 2 << endl;
+cout << "The movie " << item << endl;
+cout << "came out in " << item_count << endl;
+cout << "and had a worldwide gross of around " << price_each << " billion dollars" << endl;
 
 
 }
