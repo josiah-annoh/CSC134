@@ -15,7 +15,7 @@ double price_each = 1.69;
 
 cout << "The movie " << item << " ";
 cout << "came out in " << item_count << " ";
-cout << "and had a worldwide gross of around " << price_each << " billion dollars" << endl;
+cout << "and had a worldwide gross of around " << price_each << " billion dollars" << endl; 
 
 
 }
