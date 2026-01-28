@@ -42,7 +42,7 @@ int main() {
     cout << setprecision(2) << fixed; // 2 decimal places
     cout << "\n---- CRATE INFO ----\n";
     cout << "Volume: " << volume << "cubic feet." << endl;
-    cout << "Cost of make: $ " << cost << endl;
+    cout << "Cost of make: $" << cost << endl;
     cout << "Retail Price: $" << customer_price << endl;
     cout << "Profit:       $" << profit << endl << endl;
 
