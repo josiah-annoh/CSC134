@@ -37,7 +37,7 @@ int main() {
     customer_price = volume * CHARGE_PER_CUBIC_FOOT;
     profit = customer_price - cost;
 
-
+ 
     // Part 4 - Output
     cout << setprecision(2) << fixed; // 2 decimal places
     cout << "\n---- CRATE INFO ----\n";
