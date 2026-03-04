@@ -1,0 +1,131 @@
+:: StoryTitle
+Elemental Apocalypse 2
+
+:: StoryData
+{
+	"ifid": "E1337-BEEF-4A21-9C8D-B1234567890F",
+	"format": "Harlowe",
+	"format-version": "3.3.0",
+	"start": "Start"
+}
+
+:: Start
+# ELEMENTAL APOCALYPSE
+The ancient seals have broken. Four corrupted Titans rise.
+You are the last Elemental Guardian.
+
+**Choose your power:**
+* [[1. Fire - High Damage, Lower HP->Init {"elem":"Fire"}]]
+* [[2. Lightning - Balanced, High Mana->Init {"elem":"Lightning"}]]
+* [[3. Air - Fragile, High Dodge->Init {"elem":"Air"}]]
+* [[4. Water - High HP, Healing->Init {"elem":"Water"}]]
+
+:: Init
+{
+(set: $element to $args's elem)
+(if: $element is "Fire")[
+	(set: $hp to 100, $maxHP to 100, $mana to 60, $maxMana to 60, $str to 15)
+    (set: $a1 to "Flame Surge", $a1c to 10, $a2 to "Inferno", $a2c to 25)
+    (set: $boss to "Tidal Titan", $bHP to 150, $bMaxHP to 150, $bStr to 10)
+]
+(else-if: $element is "Lightning")[
+	(set: $hp to 110, $maxHP to 110, $mana to 80, $maxMana to 80, $str to 12)
+    (set: $a1 to "Volt Strike", $a1c to 10, $a2 to "Thunder", $a2c to 20)
+    (set: $boss to "Cyclone Titan", $bHP to 140, $bMaxHP to 140, $bStr to 12)
+]
+(else-if: $element is "Air")[
+	(set: $hp to 80, $maxHP to 80, $mana to 70, $maxMana to 70, $str to 10)
+    (set: $a1 to "Wind Slash", $a1c to 8, $a2 to "Vacuum", $a2c to 15)
+    (set: $boss to "Storm Titan", $bHP to 130, $bMaxHP to 130, $bStr to 14)
+]
+(else-if: $element is "Water")[
+	(set: $hp to 130, $maxHP to 130, $mana to 60, $maxMana to 60, $str to 11)
+    (set: $a1 to "Tidal Wave", $a1c to 10, $a2 to "Heal Current", $a2c to 15)
+    (set: $boss to "Magma Titan", $bHP to 160, $bMaxHP to 160, $bStr to 12)
+]
+
+(set: $potions to 3, $ether to 2, $turn to 0, $log to "Battle Start!", $bLog to "")
+(set: $stun to false, $dodge to false, $shield to false)
+(goto: "Battle")
+}
+
+:: Battle
+### **$boss**
+HP: $bHP / $bMaxHP
+
+---
+### **YOU ($element)**
+HP: $hp / $maxHP | MP: $mana / $maxMana
+Potions: $potions | Ether: $ether
+---
+**LOG:**
+<span id="p-log">$log</span>
+<span id="b-log" style="color:red;">$bLog</span>
+
+---
+**ACTIONS:**
+| (link-repeat: "⚔️ Attack")[(set: $act to "atk")(display: "Resolve")] | (link-repeat: "✨ $a1")[(set: $act to "a1")(display: "Resolve")] | (link-repeat: "💥 $a2")[(set: $act to "a2")(display: "Resolve")] |
+| (link-repeat: "🧪 Potion")[(set: $act to "pot")(display: "Resolve")] | (link-repeat: "💧 Ether")[(set: $act to "eth")(display: "Resolve")] |
+
+:: Resolve
+{(set: $pDmg to 0, $fail to false, $bLog to "")
+(if: $act is "atk")[
+	(set: $pDmg to $str + (random: 1, 5))
+    (set: $log to "You strike for $pDmg damage!")
+]
+(else-if: $act is "a1")[
+	(if: $mana >= $a1c)[
+    	(set: $mana to it - $a1c)
+        (set: $pDmg to (floor: $str * 1.8))
+        (set: $log to "You use $a1 for $pDmg damage!")
+        (if: $element is "Lightning")[(set: $stun to true)(set: $log to it + " Boss is STUNNED!")]
+    ](else:)[(set: $log to "Low Mana!")(set: $fail to true)]
+]
+(else-if: $act is "a2")[
+	(if: $mana >= $a2c)[
+    	(set: $mana to it - $a2c)
+        (if: $element is "Water")[
+        	(set: $heal to 40)(set: $hp to (min: $maxHP, $hp + $heal))
+            (set: $log to "You heal for $heal HP!")
+        ](else-if: $element is "Air")[
+        	(set: $dodge to true)(set: $log to "You prepare to dodge!")
+        ](else:)[
+        	(set: $pDmg to (floor: $str * 3))
+            (set: $log to "ULTIMATE: $a2 deals $pDmg damage!")
+        ]
+    ](else:)[(set: $log to "Low Mana!")(set: $fail to true)]
+]
+(else-if: $act is "pot")[
+	(if: $potions > 0)[(set: $potions to it - 1, $hp to (min: $maxHP, $hp + 50), $log to "Healed 50 HP!")](else:)[(set: $log to "No potions!")(set: $fail to true)]
+]
+(else-if: $act is "eth")[
+	(if: $ether > 0)[(set: $ether to it - 1, $mana to (min: $maxMana, $mana + 40), $log to "Restored 40 MP!")](else:)[(set: $log to "No ether!")(set: $fail to true)]
+]
+
+(if: $fail is false)[
+	(set: $bHP to it - $pDmg)
+    (if: $bHP <= 0)[(goto: "Victory")]
+    (else:)[
+    	(if: $stun is true)[(set: $bLog to "The boss is stunned and misses a turn!")(set: $stun to false)]
+        (else-if: $dodge is true)[(set: $bLog to "The boss attacks, but you dodge!")(set: $dodge to false)]
+        (else:)[
+        	(set: $bDmg to $bStr + (random: 1, 5))
+            (set: $hp to it - $bDmg)
+            (set: $bLog to "The boss hits you for $bDmg damage!")
+        ]
+    ]
+]
+
+(if: $hp <= 0)[(goto: "Lose")]
+(replace: "Battle")[(display: "Battle")]
+}
+
+:: Victory
+# VICTORY
+The $boss dissipates into mist. The world is saved.
+[[Start Over->Start]]
+
+:: Lose
+# DEFEAT
+You have fallen. Darkness covers the world.
+[[Try Again->Start]]

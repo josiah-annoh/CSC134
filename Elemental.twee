@@ -1,0 +1,237 @@
+:: StoryTitle
+Elemental Apocalypse 
+
+:: StoryData
+{
+	"ifid": "E1337-BEEF-4A21-9C8D-B1234567890F",
+	"format": "Harlowe",
+	"format-version": "3.3.0",
+	"start": "Start"
+}
+
+:: Start
+# ELEMENTAL APOCALYPSE
+The ancient seals have broken. [cite: 2] 
+Four corrupted Elemental Titans have risen to tear the world apart. [cite: 2] 
+You are the last Elemental Guardian. [cite: 3]
+
+**Choose your power:**
+* [[1. Fire - High attack, lower HP. Aggressive playstyle.->InitFire]] [cite: 4]
+* [[2. Lightning - Balanced attack, high mana. Speed-based.->InitLightning]]
+* [[3. Air - Lower attack, high dodge potential. Tricky playstyle.->InitAir]] [cite: 5]
+* [[4. Water - Balanced all around. Strong sustain and healing.->InitWater]]
+
+:: InitFire
+{(set: $element to "Fire")
+(set: $str to 12)
+(set: $hp to 120, $maxHP to 120)
+(set: $mana to 80, $maxMana to 80)
+(set: $potions to 3, $ether to 2)
+(set: $a1 to "Flame Surge", $a1c to 15)
+(set: $a2 to "Inferno Burst", $a2c to 25)
+(set: $a3 to "Ember Shield", $a3c to 20)
+(set: $boss to "Tidal Titan", $bElem to "Water", $bHP to 180, $bMaxHP to 180, $bStr to 13)
+(set: $mult to 0.7)
+(goto: "Intro")}
+
+:: InitLightning
+{(set: $element to "Lightning")
+(set: $str to 11)
+(set: $hp to 110, $maxHP to 110)
+(set: $mana to 100, $maxMana to 100)
+(set: $potions to 3, $ether to 3) 
+(set: $a1 to "Volt Strike", $a1c to 12)
+(set: $a2 to "Thunder Clap", $a2c to 28)
+(set: $a3 to "Static Field", $a3c to 18)
+(set: $boss to "Cyclone Titan", $bElem to "Air", $bHP to 165, $bMaxHP to 165, $bStr to 12)
+(set: $mult to 1.4)
+(goto: "Intro")}
+
+:: InitAir
+{(set: $element to "Air")
+(set: $str to 10)
+(set: $hp to 100, $maxHP to 100)
+(set: $mana to 90, $maxMana to 90)
+(set: $potions to 3, $ether to 2)
+(set: $a1 to "Wind Slash", $a1c to 10)
+(set: $a2 to "Vacuum Vortex", $a2c to 22)
+(set: $a3 to "Gale Dodge", $a3c to 15)
+(set: $boss to "Storm Titan", $bElem to "Lightning", $bHP to 155, $bMaxHP to 155, $bStr to 11) [cite: 7]
+(set: $mult to 0.7)
+(goto: "Intro")}
+
+:: InitWater
+{(set: $element to "Water")
+(set: $str to 11)
+(set: $hp to 115, $maxHP to 115)
+(set: $mana to 90, $maxMana to 90)
+(set: $potions to 4, $ether to 2)
+(set: $a1 to "Tidal Wave", $a1c to 15)
+(set: $a2 to "Tsunami Crush", $a2c to 26)
+(set: $a3 to "Healing Current", $a3c to 20)
+(set: $boss to "Magma Titan", $bElem to "Fire", $bHP to 175, $bMaxHP to 175, $bStr to 13)
+(set: $mult to 1.4)
+(goto: "Intro")}
+
+:: Intro
+(if: $element is "Fire")[Flames surge through your veins. The **$boss** rises from a flooded crater. [cite: 8]]
+(else-if: $element is "Lightning")[Lightning crackles across your skin. The **$boss** screams into existence. [cite: 9]]
+(else-if: $element is "Air")[You dissolve into the wind. In the ruined canyon, the **$boss** crackles to life. [cite: 10]]
+(else-if: $element is "Water")[A wave crashes over you. In the burning forest, the **$boss** erupts from the earth. [cite: 11]]
+
+[[UNLEASH YOUR POWER->Battle]]
+
+:: Battle
+{
+(set: $turn to 0)
+(set: $log to "The " + $boss + " awaits your move.")
+(set: $bLog to "")
+}
+### **$boss ($bElem)** [cite: 13]
+<div class="bar-container">
+  <div id="bhp-bar" class="hp-bar"></div>
+  <div class="bar-text">HP: <span id="bhp-val">$bHP</span> / $bMaxHP</div>
+</div>
+
+---
+**YOU ($element)** [cite: 12]
+<div class="bar-container">
+  <div id="hp-bar" class="hp-bar"></div>
+  <div class="bar-text">HP: <span id="hp-val">$hp</span> / $maxHP</div>
+</div>
+<div class="bar-container">
+  <div id="mp-bar" class="mp-bar"></div>
+  <div class="bar-text">MP: <span id="mp-val">$mana</span> / $maxMana</div>
+</div>
+
+---
+[**COMBAT LOG:**
+<span id="log-player">$log</span>
+<span id="log-boss" style="color: #ff4d4d;">$bLog</span>]<log-area|
+
+---
+**ACTIONS:**
+<div id="controls">
+(link-repeat: "⚔️ Basic Strike")[
+	{(set: $move to "atk")(display: "Execute")}
+] | 
+(link-repeat: "✨ " + $a1)[
+	{(set: $move to "a1")(display: "Execute")}
+] | 
+(link-repeat: "💥 " + $a2)[
+	{(set: $move to "a2")(display: "Execute")}
+] | 
+(link-repeat: "🛡️ " + $a3)[
+	{(set: $move to "a3")(display: "Execute")}
+]
+
+(link-repeat: "🧪 Potion (" + (str: $potions) + ")")[
+	{(set: $move to "pot")(display: "Execute")}
+] | 
+(link-repeat: "💧 Ether (" + (str: $ether) + ")")[
+	{(set: $move to "eth")(display: "Execute")}
+]
+</div>
+
+:: Execute
+{
+(set: $dmg to 0)
+(set: $skip to false)
+
+(if: $move is "atk")[
+	(set: $dmg to $str + (random: 0, 4))
+	(set: $log to "You strike with a basic attack for " + (str: $dmg) + " damage!") [cite: 14]
+]
+(else-if: $move is "a1")[
+	(if: $mana >= $a1c)[
+		(set: $mana to it - $a1c)
+		(set: $dmg to (floor: $str * 1.6 * $mult) + (random: 0, 5))
+		(set: $log to "You unleash $a1 for " + (str: $dmg) + " damage!")
+	](else:)[(set: $log to "Not enough Mana!")(set: $skip to true)]
+]
+(else-if: $move is "a2")[
+	(if: $mana >= $a2c)[
+		(set: $mana to it - $a2c)
+		(set: $dmg to (floor: $str * 2.5 * $mult) + (random: 0, 7))
+		(set: $log to "You UNLEASH $a2 for " + (str: $dmg) + " damage!")
+	](else:)[(set: $log to "Not enough Mana!")(set: $skip to true)]
+]
+(else-if: $move is "a3")[ [cite: 15]
+	(if: $mana >= $a3c)[
+		(set: $mana to it - $a3c)
+		(if: $element is "Fire")[(set: $shield to true)(set: $log to "Ember Shield activated! Damage halved.")] [cite: 16]
+		(else-if: $element is "Lightning")[(set: $stun to true)(set: $log to "$boss is STUNNED!")] [cite: 18]
+		(else-if: $element is "Air")[(set: $dodge to true)(set: $log to "You vanish into the gale!")]
+		(else-if: $element is "Water")[
+			(set: $heal to 30 + (random: 0, 15))
+			(set: $hp to (min: $maxHP, $hp + $heal))
+			(set: $log to "Healing Current flows! Restored " + (str: $heal) + " HP!")
+		]
+	](else:)[(set: $log to "Not enough Mana!")(set: $skip to true)]
+]
+(else-if: $move is "pot")[
+	(if: $potions > 0)[
+		(set: $potions to it - 1)
+		(set: $hp to (min: $maxHP, $hp + 40))
+		(set: $log to "You drink a potion and restore 40 HP!")
+	](else:)[(set: $log to "Out of potions!")(set: $skip to true)]
+]
+(else-if: $move is "eth")[
+	(if: $ether > 0)[
+		(set: $ether to it - 1)
+		(set: $mana to (min: $maxMana, $mana + 30)) [cite: 17]
+		(set: $log to "You drink an ether and restore 30 MP!")
+	](else:)[(set: $log to "Out of ether!")(set: $skip to true)]
+]
+
+(if: $skip is false)[
+	(set: $bHP to it - $dmg)
+	(set: $turn to it + 1)
+	
+	(if: $bHP <= 0)[(goto: "Victory")]
+	(else:)[
+		(set: $bDmg to $bStr + (random: 0, 7))
+		(if: $stun)[(set: $bLog to "<br>$boss is frozen in place! It skips a turn.")(set: $stun to false)] [cite: 18]
+		(else-if: $dodge)[(set: $bLog to "<br>You vanish into the wind! $boss missed!")(set: $dodge to false)]
+		(else:)[
+			(if: $shield)[(set: $bDmg to (floor: it / 2))(set: $shield to false)]
+			(set: $hp to it - $bDmg)
+			(set: $bLog to "<br>$boss retaliates for " + (str: $bDmg) + " damage!")
+			(if: $turn % 4 is 0)[
+				(set: $spec to $bStr * 2)
+				(set: $hp to it - $spec)
+				(set: $bLog to it + " !! SPECIAL ATTACK: " + (str: $spec) + " damage !!")
+			]
+		]
+	]
+]
+
+(if: $hp <= 0)[(goto: "Lose")]
+
+(replace: #log-player)[$log]
+(replace: #log-boss)[$bLog]
+(replace: #bhp-val)[(str: $bHP)]
+(replace: #hp-val)[(str: $hp)]
+(replace: #mp-val)[(str: $mana)]
+
+<script>
+  document.getElementById('bhp-bar').style.width = Math.max(0, ($bHP / $bMaxHP) * 100) + "%";
+  document.getElementById('hp-bar').style.width = Math.max(0, ($hp / $maxHP) * 100) + "%";
+  document.getElementById('mp-bar').style.width = Math.max(0, ($mana / $maxMana) * 100) + "%";
+</script>
+}
+
+:: Victory
+# YOU WIN
+The $boss collapses! [cite: 19] 
+The corruption shatters and light breaks through the clouds. [cite: 19]
+You stand victorious. The world breathes again. [cite: 19]
+
+[[Start Over->Start]]
+
+:: Lose
+# GAME OVER
+You have fallen. The $boss lets out a horrific roar as darkness consumes the land.
+The apocalypse is complete.
+
+[[Try Again?->Start]]
