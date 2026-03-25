@@ -61,3 +61,6 @@ Critical hits on both sides with a visible crit message
 Input validation using getPlayerChoice() just like the gamejam template
 
 -----
+Output
+m5lab1_elemental.cpp
+m5lab1_elemental.h
