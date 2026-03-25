@@ -1,0 +1,63 @@
+# Starter
+# Prompt 1 - Claude
+
+
+My teacher said were going to use the format of the gamejam example with my code m3bonus. Our goal is too make the code more complicated and better without getting lost.
+
+
+
+from the assignment: Part 2 - Adding more choices
+
+After we get the basic menu working, we'll add more functions for the different parts of the story.
+
+To do this you'll want to follow these instructions:
+
+
+
+
+
+Come up with a new story branch and give it a name. (This should be words_connected_with_underscores).
+
+
+
+Add the function prototype at the top of the file, above main(), with the others.
+
+
+
+Add the function definition (the full function) at the bottom of the file, below main(), with the others.
+
+
+
+Now call the function somewhere in the story to add the new branch!
+
+To complete this Lab, you should add at least two story branch functions to the program. I've already set up the choices for choice_back_door and choice_go_home, so you can just add code to those, or you can make totally new choices.
+
+If You Already Have This Down...
+
+If this is easy, great! I would like you to, together with the AI tool you use, add a new feature or two. Here's some ideas:
+
+Input Validation: Write a function that is used instead of cin. This function handles input validation, so if the user makes an illegal choice, they just have to make the choice again. (This function would probably take, as input, the number of choices for this decision. Example: user_choice = get_choice(3); // pick from 1 to 3
+
+Storing Data: Whether it's in global variables, an array, or using object oriented code like structs or classes, we can add in more complex data if your game needs it. Maybe your player character has stats, or hit points, or money... (M5LAB_A, available from your instructor, gives some ways you could do this)
+
+
+
+
+
+What i want to add: Lets make the combat actually work like combat and not just a loop. The combat isn't balanced, I want more spice.
+
+-----
+Output
+
+What we're building toward:
+
+Restructure into the gamejam .h / .cpp split (story functions in the header, utilities in the .cpp)
+Add two story branch functions as required by Part 2 — I'll add a choice_pre_battle branch where you can scout the boss or rush in blind, which affects the fight
+Make combat actually dynamic with:
+
+Boss rage phases — when the boss hits ~40% HP it changes behavior (hits harder, new attack patterns)
+Boss move variety — instead of one generic attack, the boss picks from a set (heavy strike, fast jab x2, charge up → next hit is massive)
+Critical hits on both sides with a visible crit message
+Input validation using getPlayerChoice() just like the gamejam template
+
+-----
